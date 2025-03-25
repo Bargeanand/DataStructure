@@ -1,0 +1,64 @@
+import java.util.Scanner;
+class Two_Dimenstional_array_Declaration_Intialization_Insertion_of_value_and_sorting
+{
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("enter a no of row");
+        int row=sc.nextInt();
+        System.out.println("enter a no of col");
+        int col=sc.nextInt();
+        int Matrix[][]=new int[row][col];
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                System.out.println("enter a array element");
+                Matrix[i][j]=sc.nextInt();
+            }
+        }
+        System.out.println("before sorting array");
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {  
+                System.out.print(Matrix[i][j]);
+                if(j<col-1){
+                    System.out.print(",");
+                }
+            }
+            System.out.println();
+        }
+    
+    for(int i=0;i<row;i++)
+    {
+       for(int j=0;j<col;j++) 
+       {
+        for(int k=0;k<col;k++)
+        {
+            if(k+1<col)
+            {
+                if(Matrix[i][k]>Matrix[i][k+1])
+                {
+                    int temp=Matrix[i][k];
+                    Matrix[i][k]=Matrix[i][k+1];
+                    Matrix[i][k+1]=temp;
+                }
+            }
+        }
+       }
+    }
+    System.out.println("after sorting the array");
+    for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {  
+                System.out.print(Matrix[i][j]);
+                if(j<col-1){
+                    System.out.print(",");
+                }
+            }
+            System.out.println();
+        }
+}
+}
