@@ -563,7 +563,83 @@ public class SinglyLinkedList1 {
             last=temp2;
         }
     }
+   public SinglyLinkedList1 evenOdd(SinglyLinkedList1 l) {
+        SinglyLinkedList1 evenSL = new SinglyLinkedList1();
+        SinglyLinkedList1 oddSL = new SinglyLinkedList1();
+        Node temp = head;
+        Node evenDummy=new Node(0);
+        Node oddDummy=new Node(0);
+        evenSL.head = evenDummy;
+        oddSL.head = oddDummy;
+        evenSL.tail=evenDummy;
+        oddSL.tail=oddDummy;
+        while (temp != null) {
+            if (temp.data % 2 == 0) // 10 12 5 4 1 6
+            {
+                evenSL.tail.next = new Node(temp.data);
+                evenSL.tail = evenSL.tail.next;
+            } else {
+                    oddSL.tail.next = new Node(temp.data);
+                    oddSL.tail = oddSL.tail.next;
+            }
+            temp = temp.next;
+        }
+        if(evenSL.head.next==null)
+        {
+            oddSL.tail.next=null;
+            oddSL.head=oddSL.head.next;
+            return oddSL;
+        }
+        evenSL.tail.next=oddSL.head.next;
+        evenSL.head=evenSL.head.next;
+        oddSL.tail.next=null;
+        System.out.println("orignal:");
+        l.display();
+        return evenSL;
+    }
+    public SinglyLinkedList1 mergeKSortedList(SinglyLinkedList1[] l1) {
 
+        SinglyLinkedList1 mergerdList = new SinglyLinkedList1();
+        for (int i = 0; i < l1.length; i++) {
+            mergerdList = mergeList(mergerdList, l1[i]);
+        }
+        return mergerdList;
+    }
+
+    public SinglyLinkedList1 mergeList(SinglyLinkedList1 l1, SinglyLinkedList1 l2) {
+        SinglyLinkedList1 l = new SinglyLinkedList1();
+        Node leftTemp = l1.head;
+        Node rightTemp = l2.head;
+        Node dummy = new Node(0);
+        l.head = dummy;
+        l.tail = dummy;
+        while (leftTemp != null && rightTemp != null) {
+            if (leftTemp.data < rightTemp.data) {
+                l.tail.next = new Node(leftTemp.data);
+                l.tail = l.tail.next;
+                leftTemp = leftTemp.next;
+            } else if (leftTemp.data >= rightTemp.data) {
+
+                l.tail.next = new Node(rightTemp.data);
+                l.tail = l.tail.next;
+                rightTemp = rightTemp.next;
+            }
+        }
+        while (leftTemp != null) {
+
+            l.tail.next = new Node(leftTemp.data);
+            l.tail = l.tail.next;
+            leftTemp = leftTemp.next;
+        }
+        while (rightTemp != null) {
+            l.tail.next = new Node(rightTemp.data);
+            l.tail = l.tail.next;
+            rightTemp = rightTemp.next;
+        }
+        l.head = l.head.next;
+
+        return l;
+    }
     public static void main(String args[]) {
         SinglyLinkedList1 ll = new SinglyLinkedList1();
         ll.addLast(sc.nextInt());
@@ -614,5 +690,6 @@ public class SinglyLinkedList1 {
         ll.display();
     }
 }
+
 
 
