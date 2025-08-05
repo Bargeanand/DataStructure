@@ -597,6 +597,69 @@ public class SinglyLinkedList1 {
         l.display();
         return evenSL;
     }
+        public void deleteNNodesAfterMNodes(int m, int n) {
+        int orignalM = m;
+        int orignalN = n;
+        Node temp = head;
+        Node previous = null;
+        while (temp != null) {
+            if (m == 0) {
+                if (temp == head) {
+                    while (n != 0) {
+                        temp = head;
+                        head = head.next;
+                        n--;
+                    }
+                    m = orignalM;
+                    n = orignalN;
+                } else {
+                    while (n != 0 && temp != null) {
+                        previous.next = temp.next;
+                        temp = temp.next;
+                        n--;
+
+                    }
+                    m = orignalM - 1;
+                    n = orignalN;
+                }
+            } else {
+                m--;
+            }
+            previous = temp;
+            temp = temp.next;
+        }
+    }
+
+    public void deleteNNodesAfterMNodesBest(int m, int n) {
+        Node current = head;
+        Node previous = null;
+        while (current != null) {
+            for (int i = 0; i < m && current != null; i++) {
+                previous = current;
+                current = current.next;
+            }
+            if (current == null) {
+                break;
+            }
+            Node temp = current;
+            for (int i = 0; i < n && temp != null; i++) {
+                temp = temp.next;
+            }
+            if (current == head) {
+                if (temp == current) {
+                    current = current.next;
+                    head = current;
+                } else {
+                    current = temp;
+                    head = current;
+                }
+            } else {
+                previous.next = temp;
+                current = temp;
+            }
+        }
+    }
+
     public SinglyLinkedList1 mergeKSortedList(SinglyLinkedList1[] l1) {
 
         SinglyLinkedList1 mergerdList = new SinglyLinkedList1();
@@ -690,6 +753,7 @@ public class SinglyLinkedList1 {
         ll.display();
     }
 }
+
 
 
 
