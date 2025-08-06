@@ -400,51 +400,104 @@ public class DoublleyLinkedList {
                 }
             return dl;
        }
-    //    private void genricInsert(Node begin,Node mid,Node end)
-    //    {
-    //         if(begin!=null)
-    //         {
-    //             if(head==null)
-    //             head=begin;
-    //             else
-    //             {
-    //             begin.next=head;
-    //             head.previous=begin;
-    //             head=begin;
-    //             }
-    //         }
-    //         else if(mid!=null)
-    //         {
-    //             Node slow=head;
-    //             Node fast=head;
-    //             while(fast.next!=null && fast.next.next!=null)
-    //             {
-    //                 slow=slow.next;
-    //                 fast=fast.next.next;
-    //             }
-    //             slow.previous.next=mid;
-    //             mid.next=slow;
-    //             slow.previous=mid;
-    //         }
-    //         else if(end!=null)
-    //         {
-    //             Node temp=head;
-    //             while(temp!=null)
-    //             {
-    //                 temp=temp.next;
-    //             }
-    //             temp.next=end;
-    //             end.previous=temp;
-    //         }
-       }    
+    public DoublleyLinkedList evenOdd(DoublleyLinkedList dl) {
+        if (dl.head == null) {
+            return null;
+        }
+        DoublleyLinkedList evenDL = new DoublleyLinkedList();
+        DoublleyLinkedList oddDL = new DoublleyLinkedList();
+        Node temp = dl.head;
+        evenDL.head = new Node(0);
+        oddDL.head = new Node(0);
+        evenDL.tail = evenDL.head;
+        oddDL.tail = oddDL.head;
+        Node evenPrevious = null;
+        Node oddPrevious = null;
+        while (temp != null) {
+            if (temp.data % 2 == 0) {
+                evenPrevious = evenDL.tail;
+                evenDL.tail.next = new Node(temp.data);
+                evenDL.tail = evenDL.tail.next;
+                evenDL.tail.previous = evenPrevious;
+            } else {
+                oddPrevious = oddDL.tail;
+                oddDL.tail.next = new Node(temp.data);
+                oddDL.tail = oddDL.tail.next;
+                oddDL.tail.previous = oddPrevious;
+            }
+            temp = temp.next;
+        }
+        if (evenDL.head.next == null) {
+            oddDL.tail.next = null;
+            oddDL.head = oddDL.head.next;
+            return oddDL;
+        } else if (oddDL.head.next == null) {
+            evenDL.tail.next = null;
+            evenDL.head = evenDL.head.next;
+            return evenDL;
+        }
+        evenDL.tail.next = oddDL.head.next;
+        oddDL.head = oddDL.head.next;
+        oddDL.head.previous = evenDL.tail;
+        oddDL.tail.next = null;
+        evenDL.head = evenDL.head.next;
+        System.out.println(evenDL.head.data);
+        return evenDL;
+    }
+
+    public DoublleyLinkedList mergeKSortedList(DoublleyLinkedList[] dl) {
+        DoublleyLinkedList mergeList = new DoublleyLinkedList();
+        for (int i = 0; i < dl.length; i++) {
+            mergeList = mergerList(mergeList, dl[i]);
+        }
+        return mergeList;
+    }
+
+    public DoublleyLinkedList mergerList(DoublleyLinkedList leftDL, DoublleyLinkedList rightDL) {
+        DoublleyLinkedList dl = new DoublleyLinkedList();
+        dl.head = new Node(0);
+        dl.tail = dl.head;
+        Node leftTemp = leftDL.head;
+        Node rightTemp = rightDL.head;
+        Node previous = null;
+        while (leftTemp != null && rightTemp != null) {
+            if (leftTemp.data < rightTemp.data) {
+                previous = dl.tail;
+                dl.tail.next = new Node(leftTemp.data);
+                dl.tail = dl.tail.next;
+                dl.tail.previous = previous;
+                leftTemp = leftTemp.next;
+            } else {
+                previous = dl.tail;
+                dl.tail.next = new Node(rightTemp.data);
+                dl.tail = dl.tail.next;
+                dl.tail.previous = previous;
+                rightTemp = rightTemp.next;
+            }
+        }
+        while (leftTemp != null) {
+            previous = dl.tail;
+            dl.tail.next = new Node(leftTemp.data);
+            dl.tail = dl.tail.next;
+            dl.tail.previous = previous;
+            leftTemp = leftTemp.next;
+        }
+        while (rightTemp != null) {
+            previous = dl.tail;
+            dl.tail.next = new Node(rightTemp.data);
+            dl.tail = dl.tail.next;
+            dl.tail.previous = previous;
+            rightTemp = rightTemp.next;
+        }
+        dl.tail.next = null;
+        dl.head = dl.head.next;
+        return dl;
+    }  
     public static void main(String args[]) {
         DoublleyLinkedList dl = new DoublleyLinkedList();
-        DoublleyLinkedList dl2 = new DoublleyLinkedList();
-        dl.insertAtEnd(50);
-        dl.insertAtEnd(40);
-        dl.insertAtEnd(10);
-        dl.insertAtEnd(20);
-        dl.insertAtEnd(30);
+        // DoublleyLinkedList dl2 = new DoublleyLinkedList();
+        dl.insertAtEnd(sc.nextInt());
+        dl.insertAtEnd(sc.nextInt());
         dl.display();
         // dl.insertBefore(100, 70);
         // dl.deleteEnd();
@@ -458,7 +511,23 @@ public class DoublleyLinkedList {
         // dl2.display();
         // mergePoint(dl,dl2);
         // conact(dl, dl2);
-        dl=devide(dl);
-        dl.display();
+        // dl = devide(dl);
+        // dl = dl.evenOdd(dl);
+        DoublleyLinkedList dl2=new DoublleyLinkedList();
+        dl2.insertAtEnd(sc.nextInt());
+        dl2.insertAtEnd(sc.nextInt());
+        dl2.display();
+        DoublleyLinkedList dl3=new DoublleyLinkedList();
+        dl3.insertAtEnd(sc.nextInt());
+        dl3.insertAtEnd(sc.nextInt());
+        dl3.display();
+        DoublleyLinkedList []mergedList=new DoublleyLinkedList[3];
+        mergedList[0]=dl;
+        mergedList[1]=dl2;
+        mergedList[2]=dl3;
+        DoublleyLinkedList merge=new DoublleyLinkedList();
+        merge=dl.mergeKSortedList(mergedList);
+        merge.display();
     }
 }
+
