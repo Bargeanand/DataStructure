@@ -493,6 +493,92 @@ public class DoublleyLinkedList {
         dl.head = dl.head.next;
         return dl;
     }  
+       public void SwapingNode(int xData, int yData) {
+        if (head == null || xData == yData) {
+            return;
+        }
+        Node nextX = null;
+        Node previousX = null;
+        Node nextY = null;
+        Node previousY = null;
+        Node x = head;
+        Node y = head;
+        int xCount = 0;
+        int yCount = 0;
+        while (x != null && x.data != xData) {
+            previousX = x;
+            xCount++;
+            x = x.next;
+            if (x != null) {
+                nextX = x.next;
+            }
+        }
+        while (y != null && y.data != yData) {
+            yCount++;
+            previousY = y;
+            y = y.next;
+            if (y != null) {
+                nextY = y.next;
+            }
+        }
+        if (x == null || y == null) {
+            return;
+        }
+        if (xCount < yCount) {
+            swap(x, previousX, y, previousY, nextY);
+
+        } else {
+            swap(y, previousY, x, previousX, nextX);
+        }
+    }
+
+    public void swap(Node orignal1, Node previous1, Node orignal2, Node previous2, Node next) {
+        if (orignal1.next == orignal2) {
+            if (orignal1 == head) {
+                orignal1.next = next;
+                orignal2.next = orignal1;
+                head = orignal2;
+                if (next != null) {
+                    next.previous = orignal1;
+                }
+                orignal1.previous = orignal2;
+                return;
+            }
+            orignal1.next = next;
+            if (next != null) {
+                next.previous = orignal1;
+            }
+            orignal2.next = orignal1;
+            orignal2.previous = previous1;
+            previous1.next = orignal2;
+            orignal1.previous = orignal2;
+            return;
+        } else {
+            if (orignal1 == head) {
+                orignal2.next = orignal1.next;
+                orignal1.next = next;
+                if (next != null) {
+                    next.previous = orignal1;
+                }
+                previous2.next = orignal1;
+                orignal1.previous = previous2;
+                orignal2.next.previous = orignal2;
+                head=orignal2;
+                System.out.println(orignal1.previous.data);
+                return;
+            }
+            orignal2.next = orignal1.next;
+            orignal1.next = next;
+            if (next != null) {
+                next.previous = orignal1;
+            }
+            previous2.next = orignal1;
+            orignal1.previous = previous2;
+            orignal2.next.previous = orignal2;
+            previous1.next = orignal2;
+            return;
+        }
+    }
     public static void main(String args[]) {
         DoublleyLinkedList dl = new DoublleyLinkedList();
         // DoublleyLinkedList dl2 = new DoublleyLinkedList();
@@ -530,4 +616,5 @@ public class DoublleyLinkedList {
         merge.display();
     }
 }
+
 
