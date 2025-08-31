@@ -25,14 +25,33 @@ class StringMethods
         // System.out.println(isRotated("xyz","yzx"));
 
         // String s6=new String("abc");
-        // int permutation=totalPermutation(s6);
-        // String [] str=new String[permutation];
-        // permutation(s6,1,2,permutation,0,str);
+        // int permutation=totalPermutation("abc");
+        //permute("abc");
         // degitToWord(123);
         //game();
         // checkContenet("anandBarge464@.com");
         // numberToWord(20015);
     }
+       public static void permute(String str)
+   {
+        Set<String>result=new HashSet<>();
+        permutation("",str,result);
+        System.out.println(result);
+   }
+   public static void permutation(String prefix,String remaining,Set<String>result)
+   {
+        if(remaining.isEmpty())
+        {
+            result.add(prefix);
+            return;
+        }
+        for(int i=0;i<remaining.length();i++)
+        {
+            String newPrefix=prefix+remaining.charAt(i);
+            String newRemaining=remaining.substring(0,i)+remaining.substring(i+1);
+            permutation(newPrefix, newRemaining, result);
+        }
+   }
     public static boolean isEmpty(String s)
     {
         if(s.length()==0)
@@ -540,4 +559,5 @@ class StringMethods
     //     }
     //     System.out.println(sb);
     // }
+
 }
